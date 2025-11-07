@@ -21,6 +21,11 @@ io.on("connection", (socket) => {
     console.log("📡 Record command:", msg," from :", socket.userId);
     io.emit("recordCommand", msg);
   });
+
+  socket.on("navigateCommand", (msg) => {
+    console.log("📡 Navigate command:", msg," from :", socket.userId);
+    io.emit("navigateCommand", msg);
+  });
 });
 
 httpServer.listen(3000, () =>
