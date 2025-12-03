@@ -18,13 +18,18 @@ io.on("connection", (socket) => {
   });
 
   socket.on("recordCommand", (msg) => {
-    console.log("📡 Record command:", msg," from :", socket.userId);
+    console.log("📡 Record command:", msg, " from :", socket.userId);
     io.emit("recordCommand", msg);
   });
 
   socket.on("navigateCommand", (msg) => {
-    console.log("📡 Navigate command:", msg," from :", socket.userId);
+    console.log("📡 Navigate command:", msg, " from :", socket.userId);
     io.emit("navigateCommand", msg);
+  });
+
+  socket.on("recordingState", (msg) => {
+    console.log("📡 Navigate command:", msg, " from :", socket.userId);
+    io.emit("recordingState", msg);
   });
 });
 

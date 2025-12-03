@@ -10,6 +10,8 @@
   "description": "",
   "dependencies": {
     "express": "^5.1.0",
+    "g": "^2.0.1",
+    "pm2": "^6.0.14",
     "socket.io": "^4.8.1"
   },
   "type": "module"
