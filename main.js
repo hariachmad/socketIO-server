@@ -31,6 +31,15 @@ io.on("connection", (socket) => {
     console.log("📡 Navigate command:", msg, " from :", socket.userId);
     io.emit("recordingState", msg);
   });
+
+  socket.on("lightState", (msg) => {
+    console.log("📡 Light Controller:", msg, " from :", socket.userId);
+    io.emit("lightState", msg);
+  });
+
+  socket.on("functionalities_command", (msg) => {
+    console.log("Functionalities Command: ",msg, " from :", socket.id);
+  });
 });
 
 httpServer.listen(3000, () =>
