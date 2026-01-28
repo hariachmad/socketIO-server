@@ -29,10 +29,9 @@ io.on("connection", (socket) => {
   ACK_EVENTS.forEach((eventName) => {
     socket.on(eventName, (msg, ack) => {
       console.log(`${eventName} command:`, msg, "from:", socket.userId);
-      io.emit(eventName, msg, () => {
-        if (typeof ack === "function") {
-          ack({ ok: true });
-        }
+      io.emit(eventName, msg, (ackFromClient) => {
+        console.log(`${eventName} ack:`, ackFromClient, "from:", socket.userId);
+        ack(ackFromClient);
       });
     });
   });
