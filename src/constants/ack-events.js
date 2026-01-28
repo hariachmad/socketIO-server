@@ -7,7 +7,6 @@ export const ACK_EVENTS = [
     "ALARM_RING",
     "ALARM_STOP",
     "DEVICE_OFF",
-    "DEVICE_READY",
     "DEVICE_RESET",
     "DEVICE_RESTART",
     "PING_DEVICE_UP",

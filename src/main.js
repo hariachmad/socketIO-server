@@ -71,6 +71,14 @@ io.on("connection", (socket) => {
       ack({ result });      
     })
   });
+
+  socket.on("DEVICE_READY", (msg, ack) => {
+    console.log("DEVICE_READY command:", msg, "from:", socket.userId);
+    io.emit("DEVICE_READY", msg, (ackFromClient) => {
+      const result = { ack : true }
+      ack({ result });      
+    })
+  });
 })
 
 httpServer.listen(3000, () =>

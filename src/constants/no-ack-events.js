@@ -17,4 +17,6 @@ export const NO_ACK_EVENTS = [
   "SHOW_VISITS_SPECIFIC_DAY",
   "LISTENING",
   "TALKING",
+  "I_AM_OK",
+  "I_AM_NOT_OK"
 ];
