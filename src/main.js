@@ -7,6 +7,8 @@ import { ACK_EVENTS } from "./constants/ack-events.js";
 const app = express();
 const httpServer = createServer(app);
 
+app.get("/health", (req, res) => { res.status(200).json({ status: "ready" }); });
+
 const io = new Server(httpServer, {
   cors: { origin: "*" },
 });
@@ -60,18 +62,18 @@ io.on("connection", (socket) => {
   });
 
   socket.on("VOLUME_SET", (msg, ack) => {
-    console.log("VOLUME_SET:", msg, "from:", socket.userId);
-    io.to("raspberry").emit("VOLUME_SET", msg);
+    console.log("SOUND_VOLUME_SET:", msg, "from:", socket.userId);
+    io.emit("SOUND_VOLUME_SET", msg);
   });
 
   socket.on("VOLUME_GET_ACK", (msg) => {
     console.log("VOLUME_GET_ACK:", msg, "from:", socket.userId);
-    io.to("frontend").emit("VOLUME_GET", msg);
+    io.emit("VOLUME_GET", msg);
   })
 
   socket.on("VOLUME_GET", (msg, ack) => {
     console.log("VOLUME_GET", msg, "from:", socket.userId);
-    io.to("raspberry").emit("VOLUME_GET", msg);
+    io.emit("SOUND_VOLUME_GET", msg);
   });
 
   //BRIGHTNESS
@@ -85,19 +87,19 @@ io.on("connection", (socket) => {
     io.emit("DECREASE_BRIGHTNESS", msg)
   });
 
-  socket.on("BRIGHTNESS_SET", (msg, ack) => {
+  socket.on("BRIGHTNESS_SET", (msg) => {
     console.log("BRIGHTNESS_SET:", msg, "from:", socket.userId);
-    io.to("raspberry").emit("BRIGHTNESS_SET", msg);
+    io.emit("SCREEN_BRIGHTNESS_SET", msg);
   });
 
   socket.on("BRIGHTNESS_GET_ACK", (msg) => {
     console.log("BRIGHTNESS_GET_ACK:", msg, "from:", socket.userId);
-    io.to("frontend").emit("BRIGHTNESS_GET", msg);
+    io.emit("BRIGHTNESS_GET", msg);
   })
 
   socket.on("BRIGHTNESS_GET", (msg, ack) => {
     console.log("BRIGHTNESS_GET:", msg, "from:", socket.userId);
-    io.to("raspberry").emit("BRIGHTNESS_GET", msg);
+    io.emit("SCREEN_BRIGHTNESS_GET", msg);
   });
 
   //WAKE-UP
@@ -127,6 +129,21 @@ io.on("connection", (socket) => {
   socket.on("DEVICE_READY", (msg, ack) => {
     console.log("DEVICE_READY command:", msg, "from:", socket.userId);
     io.emit("DEVICE_READY", msg)
+  });
+
+  socket.on("i_am_ok", (msg) => {
+    console.log("i_am_ok:", socket.userId);
+    io.to("frontend-ui").emit("i_am_ok", msg);
+  });
+
+  socket.on("SPEECH_MODULE_READY", (msg) => {
+    console.log("SPEECH_MODULE_READY", socket.userId);
+    io.to("frontend-ui").emit("SPEECH_MODULE_READY", msg);
+  });
+
+  socket.on("SPEECH_MODULE_PROCESS", (msg) => {
+    console.log("SPEECH_MODULE_PROCESS", socket.userId);
+    io.to("frontend-ui").emit("SPEECH_MODULE_PROCESS", msg);
   });
 })
 
