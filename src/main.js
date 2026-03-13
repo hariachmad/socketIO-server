@@ -1,8 +1,6 @@
 import { createServer } from "http";
 import express from "express";
 import { Server } from "socket.io";
-import { NO_ACK_EVENTS } from "./constants/no-ack-events.js";
-import { ACK_EVENTS } from "./constants/ack-events.js";
 import registerHandlers from "./socket-handlers/index.js";
 
 const app = express();
@@ -27,20 +25,6 @@ io.on("connection", (socket) => {
   //   console.log("Data:", args);
   //   console.log("Dari socket:", socket.id);
   // });
-
-  NO_ACK_EVENTS.forEach((eventName) => {
-    socket.on(eventName, (msg) => {
-      console.log(`${eventName} command:`, msg, "from:", socket.userId);
-      io.emit(eventName, msg);
-    });
-  });
-
-  ACK_EVENTS.forEach((eventName) => {
-    socket.on(eventName, (msg, ack) => {
-      console.log(`${eventName} command:`, msg, "from:", socket.userId);
-      io.emit(eventName, msg);
-    });
-  });
 
   registerHandlers(socket, io);
 })
