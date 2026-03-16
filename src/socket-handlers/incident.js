@@ -1,4 +1,4 @@
-import { formatDateTime } from "../utils/formatDateTime";
+import { formatDateTime } from "../utils/formatDateTime.js";
 
 export default function incidentHandlers(socket, io) {
     //FALL & HELP
