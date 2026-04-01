@@ -4,7 +4,7 @@ export default function wifiHandlers(socket, io) {
     //WIFI
     socket.on("wifi_scan_started", (msg) => {
         try {
-            console.log("scan_wifi_stream:", msg, "from:", socket.userId);
+            console.log("wifi_scan_started:", msg, "from:", socket.userId);
             const parsed =
                 typeof msg === "string" ? JSON.parse(msg) : msg;
 
@@ -12,7 +12,7 @@ export default function wifiHandlers(socket, io) {
 
             if (!validated.success) {
                 socket.emit("error", {
-                    event: "scan_wifi_stream",
+                    event: "wifi_scan_started",
                     message: "Validation failed",
                 });
                 return;
@@ -20,11 +20,11 @@ export default function wifiHandlers(socket, io) {
 
             const result = parsed.data;
 
-            io.emit("scan_wifi_stream", result);
+            io.emit("wifi_scan_started", result);
         } catch (err) {
             console.log(err);
             socket.emit("error", {
-                event: "scan_wifi_stream",
+                event: "wifi_scan_started",
                 message: "Invalid JSON format",
                 raw: msg,
             });
