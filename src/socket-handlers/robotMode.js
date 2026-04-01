@@ -26,10 +26,45 @@ export default function robotModeHandlers(socket, io) {
         io.to("frontend-ui").emit("PING_DEVICE_UP", msg);
     });
 
+    socket.on("WAKE_UP", (msg, ack) => {
+        try {
+            console.log("WAKE_UP:", msg, "from:", socket.userId);
+            const parsed =
+                typeof msg === "string" ? JSON.parse(msg) : msg;
+
+            const result = parsed.data;
+
+            io.emit("WAKE_UP", result);
+        } catch (err) {
+            console.log(err);
+            socket.emit("error", {
+                event: "WAKE_UP",
+                message: "Invalid JSON format",
+                raw: msg,
+            });
+            return;
+        }
+    });
+
     //SLEEP
     socket.on("SLEEP", (msg, ack) => {
-        console.log("SLEEP:", msg, "from:", socket.userId);
-        io.to("raspberry").emit("SLEEP", msg);
+        try {
+            console.log("SLEEP:", msg, "from:", socket.userId);
+            const parsed =
+                typeof msg === "string" ? JSON.parse(msg) : msg;
+
+            const result = parsed.data;
+
+            io.emit("SLEEP", result);
+        } catch (err) {
+            console.log(err);
+            socket.emit("error", {
+                event: "SLEEP",
+                message: "Invalid JSON format",
+                raw: msg,
+            });
+            return;
+        }
     });
 
     socket.on("SLEEP_FRONTEND", (msg, ack) => {
