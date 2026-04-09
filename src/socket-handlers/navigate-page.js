@@ -24,8 +24,13 @@ const events = [
 export default function navigatePageHandlers(socket, io) {
     events.forEach((eventName) => {
         socket.on(eventName, (msg) => {
-            console.log(`${eventName} command:`, msg, "from:", socket.userId);
-            io.emit(eventName, msg);
+            try {
+                console.log(`${eventName} command:`, msg, "from:", socket.userId);
+                const parsed = typeof msg === "string" ? JSON.parse(msg) : msg;
+                io.emit(eventName, msg);    
+            } catch (error) {
+                console.log(err);
+            }            
         });
     })
 }
