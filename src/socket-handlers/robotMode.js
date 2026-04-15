@@ -4,14 +4,12 @@ export default function robotModeHandlers(socket, io) {
     //ROBOT_MODE
     socket.on("LISTENING", (msg) => {
         console.log("LISTENING:", msg, "from:", socket.userId);
-        io.to("raspberry").emit("LISTENING", msg);
-        io.to("frontend").emit("LISTENING", msg);
+        io.emit("LISTENING", msg);
     })
 
     socket.on("TALKING", (msg, ack) => {
         console.log("TALKING:", msg, "from:", socket.userId);
-        io.to("raspberry").emit("TALKING", msg);
-        io.to("frontend").emit("TALKING", msg);
+        io.emit("TALKING", msg);
     })
 
     //WAKE-UP
